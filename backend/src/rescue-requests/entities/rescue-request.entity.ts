@@ -1,3 +1,4 @@
+import { User } from 'src/users/entities/user.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -6,7 +7,6 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Guide } from '../../guides/entities/guide.entity';
 
 export enum RescueRequestStatus {
   PENDING = 'PENDING',
@@ -28,8 +28,8 @@ export class RescueRequest {
   })
   status: RescueRequestStatus;
 
-  @ManyToOne(() => Guide, (guide) => guide.id, { onDelete: 'CASCADE' })
-  guide: Guide;
+  @ManyToOne(() => User, (user) => user.id, { onDelete: 'CASCADE' })
+  guide: User;
 
   @Column({ type: 'varchar', length: 255 })
   pdfDocument: string;

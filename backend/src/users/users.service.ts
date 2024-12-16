@@ -21,11 +21,11 @@ export class UsersService {
     return this.userRepository.find();
   }
 
-  async findOne(id: number): Promise<User> {
+  async findOne(id: string): Promise<User> {
     return this.userRepository.findOne({ where: { id } });
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
@@ -34,7 +34,7 @@ export class UsersService {
     return this.userRepository.findOne({ where: { id } });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);

@@ -1,76 +1,58 @@
-import { Type } from 'class-transformer';
 import {
   IsString,
-  IsNotEmpty,
-  Length,
   IsNumber,
-  IsPositive,
   IsDate,
-  IsOptional,
   IsArray,
-  ValidateNested,
+  IsOptional,
+  IsInt,
+  ArrayNotEmpty,
 } from 'class-validator';
-import { CreateRoutePointDto } from 'src/route-points/dto/create-route-point.dto';
 
 export class CreateTourDto {
   @IsString()
-  @IsNotEmpty()
-  @Length(3, 100)
   name: string;
 
   @IsString()
-  @IsNotEmpty()
   description: string;
 
   @IsNumber()
-  @IsPositive()
   price: number;
 
   @IsDate()
-  @Type(() => Date)
   date: Date;
 
-  @IsNumber()
-  @IsPositive()
+  @IsInt()
   maxParticipants: number;
 
-  @IsNumber()
-  @IsPositive()
-  @IsOptional()
-  difficulty?: number; // Сложность тура, необязательное поле
-
-  @IsString()
-  @IsOptional()
-  highlights?: string; // Что важно знать
-
-  @IsString()
-  @IsOptional()
-  importantInfo?: string; // Важная информация
-
-  @IsString()
-  @IsOptional()
-  startTime?: string; // Время начала тура
-
-  @IsOptional()
-  @IsString()
-  included?: string; // Что включено в тур
-
-  @IsOptional()
-  @IsString()
-  excluded?: string; // Что не включено в тур
-
-  @IsOptional()
   @IsArray()
-  @IsString({ each: true })
+  @IsOptional()
   mediaUrls?: string[];
 
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => CreateRoutePointDto)
-  routePoints: CreateRoutePointDto[];
+  @IsInt()
+  difficulty: number;
+
+  @IsString()
+  @IsOptional()
+  highlights?: string;
+
+  @IsString()
+  @IsOptional()
+  importantInfo?: string;
+
+  @IsString()
+  @IsOptional()
+  startTime?: string;
+
+  @IsString()
+  @IsOptional()
+  included?: string;
+
+  @IsString()
+  @IsOptional()
+  excluded?: string;
 
   @IsArray()
-  @IsNumber({}, { each: true })
   @IsOptional()
+  @ArrayNotEmpty()
   locationIds?: number[];
 }

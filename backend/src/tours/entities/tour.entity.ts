@@ -9,6 +9,7 @@ import {
   OneToMany,
   ManyToMany,
 } from 'typeorm';
+import { Schedule } from 'src/schedules/entities/schedule.entity';
 
 @Entity('tours')
 export class Tour {
@@ -30,15 +31,15 @@ export class Tour {
   @Column()
   maxParticipants: number;
 
-  @ManyToOne(() => User, (user) => user.tours)
-  organizer: User;
+  @ManyToOne(() => User, (user) => user.tours, { nullable: true })
+  organizer: User; // Связь с пользователем (гидом)
 
   @OneToMany(() => RoutePoint, (routePoint) => routePoint.tour, {
     cascade: true,
   })
   routePoints: RoutePoint[];
 
-  @Column('text', { array: true, nullable: true })
+  @Column('json', { nullable: true })
   mediaUrls: string[];
 
   @ManyToMany(() => Location, (location) => location.tours)
@@ -62,4 +63,7 @@ export class Tour {
 
   @Column({ type: 'text', nullable: true })
   excluded: string;
+
+  @OneToMany(() => Schedule, (schedule) => schedule.tour, { cascade: true })
+  schedules: Schedule[];
 }
