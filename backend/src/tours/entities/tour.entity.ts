@@ -1,3 +1,4 @@
+import { Location } from 'src/locations/entities/location.entity';
 import { RoutePoint } from 'src/route-points/entities/route-point.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
@@ -6,6 +7,7 @@ import {
   Column,
   ManyToOne,
   OneToMany,
+  ManyToMany,
 } from 'typeorm';
 
 @Entity('tours')
@@ -37,5 +39,27 @@ export class Tour {
   routePoints: RoutePoint[];
 
   @Column('text', { array: true, nullable: true })
-  mediaUrls: string[]; // Ссылки на изображения и видео
+  mediaUrls: string[];
+
+  @ManyToMany(() => Location, (location) => location.tours)
+  locations: Location[];
+
+  // Новые поля
+  @Column({ type: 'int', default: 1 })
+  difficulty: number;
+
+  @Column({ type: 'text', nullable: true })
+  highlights: string;
+
+  @Column({ type: 'text', nullable: true })
+  importantInfo: string;
+
+  @Column({ type: 'time', nullable: true })
+  startTime: string;
+
+  @Column({ type: 'text', nullable: true })
+  included: string;
+
+  @Column({ type: 'text', nullable: true })
+  excluded: string;
 }

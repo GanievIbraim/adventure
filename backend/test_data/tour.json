@@ -1,0 +1,27 @@
+{
+    "name": "Mountain Adventure",
+    "description": "A thrilling mountain adventure with stunning views.",
+    "price": 100,
+    "date": "2024-12-15T10:00:00.000Z",
+    "maxParticipants": 20,
+    "difficulty": 3,
+    "highlights": "Incredible views, expert guides, mountain climbing.",
+    "importantInfo": "Bring your own gear.",
+    "startTime": "10:00",
+    "included": "Transport, meals, guide services.",
+    "excluded": "Personal expenses, travel insurance.",
+    "routePoints": [
+        {
+        "name": "Start Point",
+        "latitude": 40.7128,
+        "longitude": 74.0060
+        },
+        {
+        "name": "Summit",
+        "latitude": 40.7128,
+        "longitude": 74.0060
+        }
+    ],
+    "locationIds": [1, 2]
+}
+  

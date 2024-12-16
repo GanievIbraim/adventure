@@ -17,6 +17,8 @@ import { Guide } from './guides/entities/guide.entity';
 import { RescueRequest } from './rescue-requests/entities/rescue-request.entity';
 import { Tour } from './tours/entities/tour.entity';
 import { User } from './users/entities/user.entity';
+import { LocationsModule } from './locations/locations.module';
+import { ImagesModule } from './images/images.module';
 
 @Module({
   imports: [
@@ -53,6 +55,8 @@ import { User } from './users/entities/user.entity';
     GuidesModule,
     RescueRequestsModule,
     CommentsModule,
+    LocationsModule,
+    ImagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

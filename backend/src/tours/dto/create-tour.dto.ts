@@ -34,6 +34,31 @@ export class CreateTourDto {
   @IsPositive()
   maxParticipants: number;
 
+  @IsNumber()
+  @IsPositive()
+  @IsOptional()
+  difficulty?: number; // Сложность тура, необязательное поле
+
+  @IsString()
+  @IsOptional()
+  highlights?: string; // Что важно знать
+
+  @IsString()
+  @IsOptional()
+  importantInfo?: string; // Важная информация
+
+  @IsString()
+  @IsOptional()
+  startTime?: string; // Время начала тура
+
+  @IsOptional()
+  @IsString()
+  included?: string; // Что включено в тур
+
+  @IsOptional()
+  @IsString()
+  excluded?: string; // Что не включено в тур
+
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
@@ -43,4 +68,9 @@ export class CreateTourDto {
   @ValidateNested({ each: true })
   @Type(() => CreateRoutePointDto)
   routePoints: CreateRoutePointDto[];
+
+  @IsArray()
+  @IsNumber({}, { each: true })
+  @IsOptional()
+  locationIds?: number[];
 }
