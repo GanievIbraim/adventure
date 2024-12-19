@@ -1,13 +1,6 @@
 import { Image } from 'src/images/entities/image.entity';
 import { Tour } from 'src/tours/entities/tour.entity';
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToMany,
-  ManyToMany,
-  JoinTable,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity('locations')
 export class Location {
@@ -29,7 +22,6 @@ export class Location {
   @OneToMany(() => Image, (image) => image.entityId, { cascade: true })
   images: Image[];
 
-  @ManyToMany(() => Tour, (tour) => tour.locations)
-  @JoinTable()
+  @OneToMany(() => Tour, (tour) => tour.location)
   tours: Tour[];
 }

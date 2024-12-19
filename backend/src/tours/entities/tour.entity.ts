@@ -7,7 +7,7 @@ import {
   Column,
   ManyToOne,
   OneToMany,
-  ManyToMany,
+  JoinColumn,
 } from 'typeorm';
 import { Schedule } from 'src/schedules/entities/schedule.entity';
 
@@ -32,7 +32,7 @@ export class Tour {
   maxParticipants: number;
 
   @ManyToOne(() => User, (user) => user.tours, { nullable: true })
-  organizer: User; // Связь с пользователем (гидом)
+  organizer: User;
 
   @OneToMany(() => RoutePoint, (routePoint) => routePoint.tour, {
     cascade: true,
@@ -42,10 +42,10 @@ export class Tour {
   @Column('json', { nullable: true })
   mediaUrls: string[];
 
-  @ManyToMany(() => Location, (location) => location.tours)
-  locations: Location[];
+  @ManyToOne(() => Location, (location) => location.tours)
+  @JoinColumn({ name: 'locationId' })
+  location: Location;
 
-  // Новые поля
   @Column({ type: 'int', default: 1 })
   difficulty: number;
 

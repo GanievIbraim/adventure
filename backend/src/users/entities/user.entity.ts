@@ -49,7 +49,6 @@ export class User {
   @OneToMany(() => Schedule, (schedule) => schedule.guide, { nullable: true })
   schedules: Schedule[]; // Расписание гида
 
-  // Общие связи
   @OneToMany(() => Tour, (tour) => tour.organizer)
   tours: Tour[];
 

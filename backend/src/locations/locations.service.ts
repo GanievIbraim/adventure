@@ -34,20 +34,12 @@ export class LocationsService {
   }
 
   async findAll() {
-    return this.locationRepository.find({ relations: ['images'] });
+    return this.locationRepository.find();
   }
 
-  async findOne(id: number) {
+  async findOneById(id: number) {
     return this.locationRepository.findOne({
       where: { id },
-      relations: ['images'],
-    });
-  }
-
-  async findByIds(ids: number[]): Promise<Location[]> {
-    return this.locationRepository.find({
-      where: ids.map((id) => ({ id })),
-      relations: ['images'],
     });
   }
 

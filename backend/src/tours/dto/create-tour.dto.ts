@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsString,
   IsNumber,
@@ -5,7 +6,6 @@ import {
   IsArray,
   IsOptional,
   IsInt,
-  ArrayNotEmpty,
 } from 'class-validator';
 
 export class CreateTourDto {
@@ -19,6 +19,7 @@ export class CreateTourDto {
   price: number;
 
   @IsDate()
+  @Type(() => Date)
   date: Date;
 
   @IsInt()
@@ -51,8 +52,7 @@ export class CreateTourDto {
   @IsOptional()
   excluded?: string;
 
-  @IsArray()
+  @IsNumber()
   @IsOptional()
-  @ArrayNotEmpty()
-  locationIds?: number[];
+  locationId?: number;
 }

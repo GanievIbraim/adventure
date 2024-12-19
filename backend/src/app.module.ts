@@ -27,6 +27,7 @@ import { Image } from './images/entities/image.entity';
 import { Location } from './locations/entities/location.entity';
 import { Product } from './products/entities/product.entity';
 import { Schedule } from './schedules/entities/schedule.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { Schedule } from './schedules/entities/schedule.entity';
     CartsModule,
     CartItemsModule,
     SchedulesModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

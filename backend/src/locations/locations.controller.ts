@@ -27,7 +27,7 @@ export class LocationsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.locationsService.findOne(+id);
+    return this.locationsService.findOneById(+id);
   }
 
   @Patch(':id')
