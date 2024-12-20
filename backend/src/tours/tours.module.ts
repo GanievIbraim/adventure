@@ -9,12 +9,17 @@ import { Location } from 'src/locations/entities/location.entity';
 import { LocationsService } from 'src/locations/locations.service';
 import { Image } from 'src/images/entities/image.entity';
 import { UsersService } from 'src/users/users.service';
+import { FilesModule } from 'src/files/files.module';
+import { ImagesService } from 'src/images/images.service';
+import { ImagesModule } from 'src/images/images.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([RoutePoint, User, Tour, Location, Image]),
+    FilesModule,
+    ImagesModule,
   ],
   controllers: [ToursController],
-  providers: [ToursService, LocationsService, UsersService],
+  providers: [ToursService, LocationsService, UsersService, ImagesService],
 })
 export class ToursModule {}

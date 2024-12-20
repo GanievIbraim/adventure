@@ -13,8 +13,8 @@ import { Schedule } from 'src/schedules/entities/schedule.entity';
 
 @Entity('tours')
 export class Tour {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   name: string;

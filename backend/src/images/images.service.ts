@@ -21,20 +21,11 @@ export class ImagesService {
     });
   }
 
-  // Создание нового изображения
   async createImage(createImageDto: CreateImageDto): Promise<Image> {
-    const { url, entityType, entityId } = createImageDto;
-
-    const image = this.imageRepository.create({
-      url,
-      entityType,
-      entityId,
-    });
-
+    const image = this.imageRepository.create(createImageDto);
     return this.imageRepository.save(image);
   }
 
-  // Удаление изображения
   async removeImage(imageId: string): Promise<void> {
     const image = await this.imageRepository.findOne({
       where: { id: imageId },

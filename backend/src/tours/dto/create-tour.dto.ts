@@ -6,6 +6,8 @@ import {
   IsArray,
   IsOptional,
   IsInt,
+  Min,
+  Max,
 } from 'class-validator';
 
 export class CreateTourDto {
@@ -16,6 +18,7 @@ export class CreateTourDto {
   description: string;
 
   @IsNumber()
+  @Min(0)
   price: number;
 
   @IsDate()
@@ -23,6 +26,7 @@ export class CreateTourDto {
   date: Date;
 
   @IsInt()
+  @Min(1)
   maxParticipants: number;
 
   @IsArray()
@@ -30,6 +34,8 @@ export class CreateTourDto {
   mediaUrls?: string[];
 
   @IsInt()
+  @Min(1)
+  @Max(5)
   difficulty: number;
 
   @IsString()
@@ -52,7 +58,7 @@ export class CreateTourDto {
   @IsOptional()
   excluded?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  locationId?: number;
+  locationId?: string;
 }

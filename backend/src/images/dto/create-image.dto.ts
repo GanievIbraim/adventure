@@ -11,5 +11,5 @@ export class CreateImageDto {
 
   @IsUUID()
   @IsNotEmpty()
-  entityId: string; // ID сущности, с которой связано изображение
+  entityId: string;
 }

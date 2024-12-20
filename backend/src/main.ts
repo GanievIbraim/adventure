@@ -1,4 +1,3 @@
-// src/main.ts
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
@@ -13,7 +12,7 @@ async function bootstrap() {
     allowedHeaders: 'Content-Type, Accept', // Разрешённые заголовки
     credentials: true, // Разрешить отправку учётных данных (если необходимо)
   });
-
+  /*
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -21,7 +20,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
-
+*/
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

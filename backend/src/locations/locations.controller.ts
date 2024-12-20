@@ -27,7 +27,7 @@ export class LocationsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.locationsService.findOneById(+id);
+    return this.locationsService.findOneById(id);
   }
 
   @Patch(':id')
@@ -35,11 +35,11 @@ export class LocationsController {
     @Param('id') id: string,
     @Body() updateLocationDto: UpdateLocationDto,
   ) {
-    return this.locationsService.update(+id, updateLocationDto);
+    return this.locationsService.update(id, updateLocationDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.locationsService.remove(+id);
+    return this.locationsService.remove(id);
   }
 }

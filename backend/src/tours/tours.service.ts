@@ -8,6 +8,10 @@ import { Location } from 'src/locations/entities/location.entity';
 import { User } from 'src/users/entities/user.entity';
 import { LocationsService } from 'src/locations/locations.service';
 import { UsersService } from 'src/users/users.service';
+import { FilesService } from 'src/files/files.service';
+import { CreateImageDto } from 'src/images/dto/create-image.dto';
+import { Image } from 'src/images/entities/image.entity';
+import { ImagesService } from 'src/images/images.service';
 
 @Injectable()
 export class ToursService {
@@ -20,34 +24,49 @@ export class ToursService {
     private readonly locationRepository: Repository<Location>,
     private readonly locationsService: LocationsService,
     private readonly usersService: UsersService,
+    private readonly filesService: FilesService,
+    private readonly imagesService: ImagesService,
   ) {}
 
-  async create(createTourDto: CreateTourDto, id: string) {
+  async create(createTourDto: CreateTourDto, userId: string, image?: any) {
     const { locationId, ...tourData } = createTourDto;
-    console.log(id);
 
-    const organizer = await this.usersService.findOneById(id);
-    console.log(organizer);
+    // Проверяем организатора
+    const organizer = await this.usersService.findOneById(userId);
     if (!organizer) {
       throw new HttpException('Organizer not found', HttpStatus.NOT_FOUND);
     }
 
+    // Создаём тур
     const tour = this.tourRepository.create({
       ...tourData,
       organizer,
     });
-    console.log(locationId);
+
+    // Проверяем наличие локации
     if (locationId) {
       const location = await this.locationsService.findOneById(locationId);
-      console.log(location);
       if (!location) {
         throw new HttpException('Location not found', HttpStatus.BAD_REQUEST);
       }
-
       tour.location = location;
     }
 
-    return this.tourRepository.save(tour);
+    // Сохраняем тур
+    const savedTour = await this.tourRepository.save(tour);
+
+    // Если есть изображение, сохраняем его
+    if (image) {
+      const file = await this.filesService.createFile(image);
+      const imageDto: CreateImageDto = {
+        url: file.path, // или другой путь
+        entityType: 'tour',
+        entityId: savedTour.id,
+      };
+      await this.imagesService.createImage(imageDto); // Сохраняем изображение
+    }
+
+    return savedTour;
   }
 
   async findByIds(ids: number[]): Promise<Location[]> {
@@ -62,14 +81,14 @@ export class ToursService {
     return this.tourRepository.find({ relations: ['location'] });
   }
 
-  async findOne(id: number): Promise<Tour> {
+  async findOne(id: string): Promise<Tour> {
     return this.tourRepository.findOne({
       where: { id },
       relations: ['location'],
     });
   }
 
-  async update(id: number, updateTourDto: UpdateTourDto, userId: string) {
+  async update(id: string, updateTourDto: UpdateTourDto, userId: string) {
     const tour = await this.tourRepository.findOne({
       where: { id },
       relations: ['organizer'],
@@ -90,7 +109,7 @@ export class ToursService {
     return this.tourRepository.save(tour);
   }
 
-  async remove(id: number, userId: string) {
+  async remove(id: string, userId: string) {
     const tour = await this.tourRepository.findOne({
       where: { id },
       relations: ['organizer'],
