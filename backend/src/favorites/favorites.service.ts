@@ -12,32 +12,42 @@ export class FavoritesService {
   constructor(
     @InjectRepository(Favorite)
     private favoriteRepository: Repository<Favorite>,
-    @InjectRepository(Tour)
-    private tourRepository: Repository<Tour>,
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
   ) {}
 
-  async create(createFavoriteDto: CreateFavoriteDto) {
-    const favorite = this.favoriteRepository.create(createFavoriteDto);
+  async create(createFavoriteDto: CreateFavoriteDto, userId: string) {
+    const favorite = this.favoriteRepository.create({
+      userId,
+      ...createFavoriteDto,
+    });
     return this.favoriteRepository.save(favorite);
   }
 
-  async findAll(): Promise<Favorite[]> {
+  async findAll(userId: string): Promise<Favorite[]> {
     return this.favoriteRepository.find({
+      where: { userId },
       relations: ['user', 'tour'],
     });
   }
 
-  async findOne(id: number): Promise<Favorite> {
-    return this.favoriteRepository.findOne({
-      where: { id },
+  async findOne(id: string, userId: string): Promise<Favorite> {
+    const favorite = await this.favoriteRepository.findOne({
+      where: { id, userId },
       relations: ['user', 'tour'],
     });
+    if (!favorite) {
+      throw new HttpException('Favorite not found', HttpStatus.NOT_FOUND);
+    }
+    return favorite;
   }
 
-  async update(id: number, updateFavoriteDto: UpdateFavoriteDto) {
-    const favorite = await this.favoriteRepository.findOne({ where: { id } });
+  async update(
+    id: string,
+    updateFavoriteDto: UpdateFavoriteDto,
+    userId: string,
+  ) {
+    const favorite = await this.favoriteRepository.findOne({
+      where: { id, userId },
+    });
     if (!favorite) {
       throw new HttpException('Favorite not found', HttpStatus.NOT_FOUND);
     }
@@ -45,8 +55,10 @@ export class FavoritesService {
     return this.favoriteRepository.findOne({ where: { id } });
   }
 
-  async remove(id: number) {
-    const favorite = await this.favoriteRepository.findOne({ where: { id } });
+  async remove(id: string, userId: string) {
+    const favorite = await this.favoriteRepository.findOne({
+      where: { id, userId },
+    });
     if (!favorite) {
       throw new HttpException('Favorite not found', HttpStatus.NOT_FOUND);
     }

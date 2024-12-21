@@ -15,7 +15,7 @@ import { ImagesModule } from 'src/images/images.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([RoutePoint, User, Tour, Location, Image]),
+    TypeOrmModule.forFeature([Tour, User, Location, Image, RoutePoint]),
     FilesModule,
     ImagesModule,
   ],

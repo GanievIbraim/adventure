@@ -8,7 +8,8 @@ import {
   IsInt,
   Min,
   Max,
-} from 'class-validator';
+} from 'class-validator'; // Импортируем DTO для точек маршрута
+import { CreateRoutePointDto } from 'src/route-points/dto/create-route-point.dto';
 
 export class CreateTourDto {
   @IsString()
@@ -61,4 +62,9 @@ export class CreateTourDto {
   @IsString()
   @IsOptional()
   locationId?: string;
+
+  @IsArray()
+  @IsOptional()
+  @Type(() => CreateRoutePointDto)
+  routePoints?: CreateRoutePointDto[];
 }

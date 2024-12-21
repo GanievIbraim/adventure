@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Image } from '../../images/entities/image.entity';
 import { Product } from '../../products/entities/product.entity';
-import { Schedule } from 'src/schedules/entities/schedule.entity';
+import { TourSchedule } from 'src/tour-schedules/entities/tour-schedule.entity';
 import { Favorite } from 'src/favorites/entities/favorite.entity';
 import { Tour } from 'src/tours/entities/tour.entity';
 import { Cart } from 'src/carts/entities/cart.entity';
@@ -46,8 +46,8 @@ export class User {
   @OneToMany(() => Product, (product) => product.guide, { nullable: true })
   products: Product[]; // Товары, связанные с гидом
 
-  @OneToMany(() => Schedule, (schedule) => schedule.guide, { nullable: true })
-  schedules: Schedule[]; // Расписание гида
+  @OneToMany(() => TourSchedule, (schedule) => schedule.guide)
+  schedules: TourSchedule[];
 
   @OneToMany(() => Tour, (tour) => tour.organizer)
   tours: Tour[];

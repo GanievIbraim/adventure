@@ -1,11 +1,7 @@
-import { IsNumber, IsPositive } from 'class-validator';
+import { IsString, IsUUID } from 'class-validator';
 
 export class CreateFavoriteDto {
-  @IsNumber()
-  @IsPositive()
-  userId: number;
-
-  @IsNumber()
-  @IsPositive()
-  tourId: number;
+  @IsString()
+  @IsUUID()
+  tourId: string;
 }

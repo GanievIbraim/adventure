@@ -1,15 +1,17 @@
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsString, IsArray, IsOptional, IsUUID } from 'class-validator';
 
 export class CreateCommentDto {
-  @IsNotEmpty()
   @IsString()
   content: string;
 
-  @IsNotEmpty()
   @IsUUID()
   authorId: string;
 
-  @IsNotEmpty()
   @IsUUID()
   tourId: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  imageUrls?: string[];
 }

@@ -10,14 +10,14 @@ import {
 
 @Entity('favorites')
 export class Favorite {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
-  userId: number; // Внешний ключ как примитивное значение
+  userId: string;
 
   @Column()
-  tourId: number;
+  tourId: string;
 
   @ManyToOne(() => User, (user) => user.favorites)
   @JoinColumn({ name: 'userId' })

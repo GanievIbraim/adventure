@@ -9,7 +9,7 @@ import {
   OneToMany,
   JoinColumn,
 } from 'typeorm';
-import { Schedule } from 'src/schedules/entities/schedule.entity';
+import { TourSchedule } from 'src/tour-schedules/entities/tour-schedule.entity';
 
 @Entity('tours')
 export class Tour {
@@ -64,6 +64,6 @@ export class Tour {
   @Column({ type: 'text', nullable: true })
   excluded: string;
 
-  @OneToMany(() => Schedule, (schedule) => schedule.tour, { cascade: true })
-  schedules: Schedule[];
+  @OneToMany(() => TourSchedule, (schedule) => schedule.tour, { cascade: true })
+  schedules: TourSchedule[];
 }

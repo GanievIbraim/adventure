@@ -1,34 +1,49 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CartsService } from './carts.service';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { CartsService } from './carts.service';
+import { CreateCartItemDto } from 'src/cart-items/dto/create-cart-item.dto';
 
 @Controller('carts')
 export class CartsController {
-  constructor(private readonly cartsService: CartsService) {}
-
-  @Post()
-  create(@Body() createCartDto: CreateCartDto) {
-    return this.cartsService.create(createCartDto);
-  }
+  constructor(private readonly cartService: CartsService) {}
 
   @Get()
-  findAll() {
-    return this.cartsService.findAll();
+  @UseGuards(AuthGuard('jwt'))
+  async getCart(@Request() req) {
+    const userId = req.user.id;
+    return this.cartService.getActiveCart(userId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cartsService.findOne(+id);
+  @Post('add')
+  @UseGuards(AuthGuard('jwt'))
+  async addItem(@Body() createCartItemDto: CreateCartItemDto, @Request() req) {
+    const userId = req.user.id;
+    return this.cartService.addItemToCart(userId, createCartItemDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCartDto: UpdateCartDto) {
-    return this.cartsService.update(+id, updateCartDto);
+  @Delete('remove/:id')
+  @UseGuards(AuthGuard('jwt'))
+  async removeItem(@Param('id') cartItemId: string, @Request() req) {
+    const userId = req.user.id;
+    return this.cartService.removeItemFromCart(userId, cartItemId);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cartsService.remove(+id);
+  @Delete('clear')
+  @UseGuards(AuthGuard('jwt'))
+  async clearCart(@Request() req) {
+    const userId = req.user.id;
+    await this.cartService.clearCart(userId);
   }
 }

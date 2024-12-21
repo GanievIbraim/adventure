@@ -9,24 +9,12 @@ import { ToursModule } from './tours/tours.module';
 import { UsersModule } from './users/users.module';
 import { RescueRequestsModule } from './rescue-requests/rescue-requests.module';
 import { CommentsModule } from './comments/comments.module';
-import { Comment } from './comments/entities/comment.entity';
-import { Favorite } from './favorites/entities/favorite.entity';
-import { RoutePoint } from './route-points/entities/route-point.entity';
-import { RescueRequest } from './rescue-requests/entities/rescue-request.entity';
-import { Tour } from './tours/entities/tour.entity';
-import { User } from './users/entities/user.entity';
 import { LocationsModule } from './locations/locations.module';
 import { ImagesModule } from './images/images.module';
 import { ProductsModule } from './products/products.module';
 import { CartsModule } from './carts/carts.module';
 import { CartItemsModule } from './cart-items/cart-items.module';
-import { SchedulesModule } from './schedules/schedules.module';
-import { CartItem } from './cart-items/entities/cart-item.entity';
-import { Cart } from './carts/entities/cart.entity';
-import { Image } from './images/entities/image.entity';
-import { Location } from './locations/entities/location.entity';
-import { Product } from './products/entities/product.entity';
-import { Schedule } from './schedules/entities/schedule.entity';
+import { TourSchedulesModule } from './tour-schedules/tour-schedules.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -34,16 +22,20 @@ import { AuthModule } from './auth/auth.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'Atelier_0809',
-      database: 'adventure',
-      autoLoadEntities: true,
-      synchronize: true,
-      driver: require('mysql2'),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get<string>('DB_HOST'),
+        port: +configService.get<number>('DB_PORT'),
+        username: configService.get<string>('DB_USER'),
+        password: configService.get<string>('DB_PASSWORD'),
+        database: configService.get<string>('DB_NAME'),
+        autoLoadEntities: true,
+        synchronize: true,
+        driver: require('mysql2'),
+      }),
     }),
     UsersModule,
     ToursModule,
@@ -56,7 +48,7 @@ import { AuthModule } from './auth/auth.module';
     ProductsModule,
     CartsModule,
     CartItemsModule,
-    SchedulesModule,
+    TourSchedulesModule,
     AuthModule,
   ],
   controllers: [AppController],
